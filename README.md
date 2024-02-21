@@ -28,9 +28,8 @@ To get started with this microservice, follow these steps:
 1. **Clone the repository at a known directory:**
    ```shell
    git clone https://github.com/sudeepcb/MeetingsCalenderWPF.git
-   ```
+
    #Visual Studio Code
-   ```shell
       cd CardGamesCheckerAPI/PokerGameCheckerMicroservice
   ```
   #Visual Studio (requires .NET 8 or higher)
