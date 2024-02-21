@@ -25,17 +25,17 @@ This application allows user to login and view calender events based on a specif
 ## Getting Started
 To get started with this microservice, follow these steps:
 
-1. **Clone the repository at a known directory:**
+1. **Clone the repository at a known directory (requires .NET 8 or higher):**
    ```shell
    git clone https://github.com/sudeepcb/MeetingsCalenderWPF.git
    cd CardGamesCheckerAPI/PokerGameCheckerMicroservice - Visual Studio Code
 
-   `open MeetingCalenderWPF.sln at the cloned directory - Visual Studio (requires .NET 8 or higher)`
+   `open MeetingCalenderWPF.sln at the cloned directory - Visual Studio`
 
 3. **Build and Run:**
    - Open the project in your favorite development environment.
    - Right-click sln in Visual Studio and select Restore NuGet Packages `(Visual Studio required)`
-     `Visual Studio Code` - run `dotnet restore`
+   - run `dotnet restore` (Visual Studio Code required)
    - Build and run the solution.
    - The application will be loaded to a login page.
 
