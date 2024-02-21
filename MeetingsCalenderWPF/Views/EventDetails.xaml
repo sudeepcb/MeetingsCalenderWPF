@@ -1,0 +1,203 @@
+﻿<Page x:Class="MeetingsCalenderWPF.Views.EventDetails"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MeetingsCalenderWPF.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EventDetails" Foreground="White">
+
+    <!-- Defining the layout of the page using a Grid -->
+    <Grid Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!-- Defining a StackPanel to hold the date pickers for selecting date range -->
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="From:" VerticalAlignment="Top" Margin="15,0,5,0" Foreground="Black"/>
+            <DatePicker x:Name="fromDatePicker" SelectedDateChanged="fromDatePicker_SelectedDateChanged" Height="28" VerticalAlignment="Top"/>
+            <TextBlock Text="   To:" Height="20" Foreground="Black" VerticalAlignment="Top"/>
+            <DatePicker x:Name="toDatePicker" SelectedDateChanged="toDatePicker_SelectedDateChanged" Height="27" VerticalAlignment="Top"/>
+        </StackPanel>
+
+        <!-- Defining a ListBox to display the event details -->
+        <ListBox ScrollViewer.CanContentScroll="False" x:Name="eventList" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,41,10,10" >
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <!-- Defining the DataTemplate to display each item in the ListBox -->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <!-- Border to wrap each event detail item -->
+                    <StackPanel>
+                        <!-- Displaying various event details using TextBlocks -->
+                        <Border BorderThickness="10" BorderBrush="Black" Margin="5,10">
+                            <Separator x:Name="ListBlock" Background="Black">
+                                <Separator.BorderBrush>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="Black"/>
+                                        <GradientStop Color="Gainsboro" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Separator.BorderBrush>
+                            </Separator>
+                        </Border>
+                        <TextBlock Text="Id:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding id}" />
+                        <!-- Displaying attendees using ItemsControl -->
+                        <TextBlock Text="Attendees:" FontWeight="Bold" />
+                        <ItemsControl ItemsSource="{Binding attendees}">
+                            <!-- DataTemplate for each attendee -->
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="Company:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding company}" />
+                                        <TextBlock Text="Email:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding email}" />
+                                        <TextBlock Text="External Email:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding external_email}" />
+                                        <!-- Add more bindings as needed -->
+                                        <Separator Margin="5,10" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock Text="Description:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding description}" />
+
+                        <TextBlock Text="Room:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding room}" />
+
+                        <TextBlock Text="Location:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding location}" />
+
+                        <TextBlock Text="Owner:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding owner}" />
+
+                        <TextBlock Text="Start Time:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding start_time}" />
+
+                        <TextBlock Text="End Time:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding end_time}" />
+
+                        <TextBlock Text="Summary:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding summary}" />
+
+                        <TextBlock Text="Conference Service:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding conference_service}" />
+
+                        <TextBlock Text="Conference Service Redirect:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding conference_service_redirect}" />
+
+                        <TextBlock Text="Conference Info:" FontWeight="Bold" />
+                        <ItemsControl ItemsSource="{Binding conference_bridges}">
+                            <!-- Defining the DataTemplate for each conference bridge item -->
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Separator Margin="5,10" />
+                                        <TextBlock Text="Company:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding company}" />
+
+                                        <TextBlock Text="Country Name:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding country_name}" />
+
+                                        <TextBlock Text="Number:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding number}" />
+
+                                        <TextBlock Text="Type:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding type}" />
+
+                                        <TextBlock Text="Passcode:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding passcode}" />
+
+                                        <TextBlock Text="Pin:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding pin}" />
+                                        <Separator Margin="5,10" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock Text="Actual Start Time:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding actual_start_time}" />
+
+                        <TextBlock Text="Actual End Time:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding actual_end_time}" />
+
+                        <TextBlock Text="Deal ID:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding deal_id}" />
+
+                        <TextBlock Text="Customer:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding customer}" />
+
+                        <TextBlock Text="Allow Orgs:" FontWeight="Bold" />
+                        <ItemsControl ItemsSource="{Binding allowed_org_list}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock Text="Prospect:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding prospect}" />
+
+                        <TextBlock Text="Room Password:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding room_password}" />
+
+                        <TextBlock Text="Passcode:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding passcode}" />
+
+                        <TextBlock Text="Google Calendar Event ID:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding gcal_event_id}" />
+
+                        <TextBlock Text="External Owner:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding external_owner}" />
+
+                        <TextBlock Text="Should Transcribe:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding should_transcribe}" />
+
+                        <TextBlock Text="Notes:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding notes}" />
+
+                        <TextBlock Text="Detailed Notes:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding detailed_notes}" />
+
+                        <TextBlock Text="Customer Summary:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding customer_summary}" />
+
+                        <TextBlock Text="Draft Follow-up Email:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding draft_followup_email}" />
+
+                        <TextBlock Text="Notetaker Removed Event IDs:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding notetaker_removed_event_ids}" />
+
+                        <TextBlock Text="Language:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding language}" />
+
+                        <TextBlock Text="Last Updated:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding last_updated}" />
+
+
+                    </StackPanel>
+                </DataTemplate>
+                </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+    </Grid>
+</Page>

@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="MeetingsCalenderWPF.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MeetingsCalenderWPF.Views"
+             mc:Ignorable="d">
+    <Grid>
+        <!-- Outer Border to Contain Login UI -->
+        <Border Width="300" Background="White" CornerRadius="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <!-- Drop Shadow Effect for Visual Appeal -->
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2" Color="Gray" />
+            </Border.Effect>
+            <!-- StackPanel to Organize Login Elements Vertically -->
+            <StackPanel Orientation="Vertical" Margin="20">
+                <!-- Username TextBlock -->
+                <TextBlock Text="username" Margin="0,15" HorizontalAlignment="Left"/>
+                <!-- TextBox for User to Enter Username -->
+                <TextBox x:Name="username" Padding="0,5" Width="255" BorderThickness="0,0,0,1" HorizontalAlignment="Left" Text="takehome@aircover.ai"/>
+                <!-- Password TextBlock -->
+                <TextBlock Text="password" Margin="0,15" HorizontalAlignment="Left"/>
+                <!-- TextBox for User to Enter Password -->
+                <TextBox x:Name="password" Padding="0,5" Width="255" BorderThickness="0,0,0,1" HorizontalAlignment="Left" Text="vsdpysMVByK&amp;ir%@iq7*"/>
+                <!-- CheckBox for Magic Token Option -->
+                <CheckBox x:Name="magicToken" Content="magic token?" Margin="0,15,0,0"/>
+                <!-- Note Regarding Case Sensitivity -->
+                <TextBlock Text="*case sensitive" Margin="0,5" HorizontalAlignment="Left"/>
+
+                <!-- Login Button -->
+                <Button x:Name="LoginBtn" Content="Login" Foreground="Black" Background="#FFF1EEEA"
+                        Margin="0,15"
+                        Height="35"
+                        Width="150"
+                        Click="LoginBtn_Click"
+                        FontFamily="Bahnschrift Light Condensed"
+                        FontSize="25"
+                        FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
