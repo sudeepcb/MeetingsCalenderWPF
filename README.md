@@ -30,12 +30,12 @@ To get started with this microservice, follow these steps:
    git clone https://github.com/sudeepcb/MeetingsCalenderWPF.git
    cd CardGamesCheckerAPI/PokerGameCheckerMicroservice - Visual Studio Code
 
-   `open MeetingCalenderWPF.sln at the cloned directory - Visual Studio`
+   open MeetingCalenderWPF.sln at the cloned directory - Visual Studio
 
 3. **Build and Run:**
    - Open the project in your favorite development environment.
    - Right-click sln in Visual Studio and select Restore NuGet Packages `(Visual Studio required)`
-   - run `dotnet restore` (Visual Studio Code required)
+   - run `dotnet restore` `(Visual Studio Code required)`
    - Build and run the solution.
    - The application will be loaded to a login page.
 
