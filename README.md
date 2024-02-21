@@ -39,9 +39,7 @@ To get started with this microservice, follow these steps:
    - Open the project in your favorite development environment.
    - Right-click sln in Visual Studio and select Restore NuGet Packages (Visual Studio required)
    - ## Visual Studio Code
-      ```shell
       dotnet restore
-      ```
    - Build and run the solution.
    - The application will be loaded to a login page.
 
