@@ -31,7 +31,7 @@ To get started with this microservice, follow these steps:
 
    #Visual Studio Code
       cd CardGamesCheckerAPI/PokerGameCheckerMicroservice
-  ```
+   
   #Visual Studio (requires .NET 8 or higher)
     open MeetingCalenderWPF.sln at the cloned directory
 
