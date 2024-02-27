@@ -1,97 +1,84 @@
-﻿// Importing necessary namespaces
-using MeetingsCalenderWPF.Interface; // Importing the IMeetingService interface
-using MeetingsCalenderWPF.Models; // Importing the necessary models
+﻿using MeetingsCalenderWPF.Interface;
+using MeetingsCalenderWPF.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Net.Mime;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-// Declaring a namespace for the class
 namespace MeetingsCalenderWPF
 {
-    // Declaring the class MeetingsService which implements the IMeetingService interface
-    internal class MeetingsService : IMeetingService
+    public class MeetingsService : IMeetingService
     {
-        // Properties of the class
-        // These properties define the attributes of the meeting service
-        public IAuthResult _AuthResult { get; set; } // Authentication result object
-        public List<EventDetails> _meetingEvents { get; set; } // List of meeting events
-
-        // Private member variable
         private readonly HttpClient _httpClient;
+        public IAuthResult _authResult;
+        public List<EventDetails> _meetingEvents;
 
-        // Constructor for the MeetingsService class
         public MeetingsService()
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://api.aircover.ai"), // Setting the base address for the HTTP client
+                BaseAddress = new Uri("https://api.aircover.ai")
             };
-            _AuthResult = new AuthResult(); // Initializing the authentication result object
-            _meetingEvents = new List<EventDetails>(); // Initializing the list of meeting events
+            _authResult = new AuthResult();
+            _meetingEvents = new List<EventDetails>();
         }
 
-        // Method to get a JWT token for authentication
+        public IAuthResult _AuthResult { get; set; }
+        List<EventDetails> IMeetingService._meetingEvents { get; set; }
+
         public async Task GetJWTToken(IAuthRequest authRequest)
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/auth/login", authRequest); // Sending a POST request to obtain a JWT token
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/auth/login", authRequest);
+                response.EnsureSuccessStatusCode();
 
-                if (response.IsSuccessStatusCode) // Checking if the request was successful
-                {
-                    string responseBody = await response.Content.ReadAsStringAsync(); // Reading the response body
-
-                    if (responseBody != null) // Checking if the response body is not null
-                    {
-                        _AuthResult = JsonSerializer.Deserialize<AuthResult>(responseBody); // Deserializing the response body into an AuthResult object
-                    }
-                }
+                string responseBody = await response.Content.ReadAsStringAsync();
+                _authResult = JsonSerializer.Deserialize<AuthResult>(responseBody);
             }
-            catch (Exception e)
+            catch (HttpRequestException ex)
             {
-                throw; // Throwing any exceptions that occur
+                throw new Exception("Failed to retrieve JWT token.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error occurred while processing JWT token response.", ex);
             }
         }
 
-        // Method to get meeting events within a specified date range
         public async Task<List<EventDetails>> GetMeetingEvents(string start_date, string end_date)
         {
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _AuthResult.data[0].access_token); // Setting the authorization header using the JWT token
-
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"/meetings/?start={start_date}&end={end_date}"); // Sending a GET request to retrieve meeting events
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authResult?.data?[0]?.access_token);
 
-                if (response.IsSuccessStatusCode) // Checking if the request was successful
+                HttpResponseMessage response = await _httpClient.GetAsync($"/meetings/?start={start_date}&end={end_date}");
+                response.EnsureSuccessStatusCode();
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var meetingsResult = JsonSerializer.Deserialize<EventGetResult>(responseBody);
+
+                _meetingEvents.Clear();
+                foreach (var data in meetingsResult?.data)
                 {
-                    string responseBody = await response.Content.ReadAsStringAsync(); // Reading the response body
-
-                    if (responseBody != null) // Checking if the response body is not null
+                    foreach (var item in data)
                     {
-                        var meetingsResult = JsonSerializer.Deserialize<EventGetResult>(responseBody); // Deserializing the response body into an EventGetResult object
-                        foreach (var data in meetingsResult.data) // Iterating through the retrieved meeting data
-                        {
-                            foreach (var item in data) // Iterating through each item in the data
-                            {
-                                _meetingEvents.Add(item); // Adding the meeting event to the list of meeting events
-                            }
-                        }
+                        _meetingEvents.Add(item);
                     }
                 }
 
-                return _meetingEvents; // Returning the list of meeting events
+                return _meetingEvents;
             }
-            catch (Exception e)
+            catch (HttpRequestException ex)
             {
-                throw; // Throwing any exceptions that occur
+                throw new Exception("Failed to retrieve meeting events.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error occurred while processing meeting events response.", ex);
             }
         }
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MeetingsCalenderWPF.Models
 {
     // Class for serialzation of authrequest for POST HtpClient
-    class AuthRequest : IAuthRequest
+    public class AuthRequest : IAuthRequest
     {
         public string username { get; set; } = null!;
         public string password { get; set; } = null!;
