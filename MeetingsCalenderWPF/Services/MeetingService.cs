@@ -13,8 +13,8 @@ namespace MeetingsCalenderWPF
     public class MeetingsService : IMeetingService
     {
         private readonly HttpClient _httpClient;
-        public IAuthResult _authResult;
-        public List<EventDetails> _meetingEvents;
+        public IAuthResult _AuthResult { get; set ; }
+        List<EventDetails> _meetingEvents { get; set ; }
 
         public MeetingsService()
         {
@@ -22,12 +22,16 @@ namespace MeetingsCalenderWPF
             {
                 BaseAddress = new Uri("https://api.aircover.ai")
             };
-            _authResult = new AuthResult();
-            _meetingEvents = new List<EventDetails>();
+            _AuthResult = new AuthResult();
+            _ = new List<EventDetails>();
         }
 
-        public IAuthResult _AuthResult { get; set; }
-        List<EventDetails> IMeetingService._meetingEvents { get; set; }
+        public MeetingsService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+            _AuthResult = new AuthResult();
+            _meetingEvents = new List<EventDetails>();
+        }
 
         public async Task GetJWTToken(IAuthRequest authRequest)
         {
@@ -37,11 +41,11 @@ namespace MeetingsCalenderWPF
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
-                _authResult = JsonSerializer.Deserialize<AuthResult>(responseBody);
+                _AuthResult = JsonSerializer.Deserialize<AuthResult>(responseBody);
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception("Failed to retrieve JWT token.", ex);
+                throw new HttpRequestException("Failed to retrieve JWT token.", ex);
             }
             catch (Exception ex)
             {
@@ -53,7 +57,7 @@ namespace MeetingsCalenderWPF
         {
             try
             {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authResult?.data?[0]?.access_token);
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _AuthResult?.data?[0]?.access_token);
 
                 HttpResponseMessage response = await _httpClient.GetAsync($"/meetings/?start={start_date}&end={end_date}");
                 response.EnsureSuccessStatusCode();
@@ -74,7 +78,11 @@ namespace MeetingsCalenderWPF
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception("Failed to retrieve meeting events.", ex);
+                throw new HttpRequestException("Failed to retrieve meeting events.", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new JsonException("Invalid JSON", ex);
             }
             catch (Exception ex)
             {

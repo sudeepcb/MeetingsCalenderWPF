@@ -12,11 +12,7 @@ namespace MeetingsCalenderWPF.Tests
     {
         public void Customize(IFixture fixture)
         {
-            // Customize the creation of AuthRequest
-            fixture.Customize<AuthRequest>(composer =>
-                composer.With(request => request.username, "takehome@aircover.ai")
-                        .With(request => request.password, "vsdpysMVByK&ir%@iq7*")
-                        .With(request => request.magic_token, true));
+       
         }
     }
 }

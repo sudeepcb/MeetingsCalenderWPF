@@ -14,8 +14,6 @@ namespace MeetingsCalenderWPF.Interface
         // Properties of the interface
         // These properties define the attributes and behavior of the meeting service
         public IAuthResult _AuthResult { get; set; }
-
-        public List<EventDetails> _meetingEvents { get; set; }
         public Task GetJWTToken(IAuthRequest authRequest);
 
         public Task<List<EventDetails>> GetMeetingEvents(string start_date, string end_date);
